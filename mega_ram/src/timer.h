@@ -13,7 +13,6 @@
 * 1024: hasta 4.19424 s con resolucion 64 us
 */
 void timer1_start(uint16_t);
-void timer1_stop();
-uint32_t timer1_getCount();
+uint32_t timer1_stop();
 
 #endif //TIMER_H_

@@ -13,7 +13,7 @@
 #include <uart.h>
 #include <timer.h>
 
-uint8_t n = 2;
+uint8_t n = 51;
 uint8_t* A, * B, * C;
 
 // blink builtin led
@@ -50,51 +50,39 @@ int main() {
   UART_Init();
   uint16_t prescaler = 256;
 
+  A = (uint8_t*)malloc(n * n * sizeof(uint8_t));
+  B = (uint8_t*)malloc(n * n * sizeof(uint8_t));
+  C = (uint8_t*)malloc(n * n * sizeof(uint8_t));
+
+  // Check if there was enough memory
+  if (A == NULL || B == NULL || C == NULL) {
+    UART_PrintStr("Error: memoria insuficiente\n");
+    error();
+  }
+
+  // Initialize matrices
+  for (int i = 0; i < n * n; i++) {
+    A[i] = 1;
+    B[i] = 1;
+    C[i] = 0;
+  }
+
   while (1) {
-
-    A = (uint8_t*)malloc(n * n * sizeof(uint8_t));
-    B = (uint8_t*)malloc(n * n * sizeof(uint8_t));
-    C = (uint8_t*)malloc(n * n * sizeof(uint8_t));
-
-    // Check if there was enough memory
-    if (A == NULL || B == NULL || C == NULL) {
-      UART_PrintStr("Error: memoria insuficiente\n");
-      error();
-    }
-
-    // Initialize matrices
-    for (int i = 0; i < n * n; i++) {
-      A[i] = 1;
-      B[i] = 1;
-      C[i] = 0;
-    }
-
     timer1_start(prescaler);
     multiplicar();
-    timer1_stop();
+    uint32_t time = timer1_stop();
 
-    uint32_t time = timer1_getCount();
-
-    // Check if there was overflow
-    // if (TIFR0 & (1 << TOV0)) time = time + ((uint32_t)65536);
-    // TIFR0 &= ~(1 << TOV0);
-
-    // Print elapsed time
-    UART_PrintStr("Producto matriz ");
-    UART_PrintNumber(n);
-    UART_PrintStr("x");
-    UART_PrintNumber(n);
-    UART_PrintStr(", tiempo transcurrido: ");
+    UART_PrintStr("tiempo transcurrido: ");
     UART_PrintNumber(time);
     UART_PrintStr(" us\n");
 
     validar();
 
-    n++;
-    free(A);
-    free(B);
-    free(C);
-  }
+    for (int i = 0; i < n * n; i++) {
+      C[i] = 0;
+    }
 
+    _delay_ms(1000);
+  }
   return 0;
 }

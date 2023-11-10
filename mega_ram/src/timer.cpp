@@ -7,7 +7,6 @@
 uint16_t fac;
 
 void timer1_start(uint16_t prescaler) {
-    
     switch (prescaler)
     {
     case 8:
@@ -20,7 +19,7 @@ void timer1_start(uint16_t prescaler) {
         prescaler = (1 << CS12);fac = 16;
         break;    
     case 1024:
-        prescaler = (1 << CS12) | (1 << CS10);fac = 64;  // 1024 Cada tick son 64us cuenta hasta 4.19424 seg
+        prescaler = (1 << CS12) | (1 << CS10);fac = 64;
         break;
     }
 
@@ -31,12 +30,8 @@ void timer1_start(uint16_t prescaler) {
     TCCR1B = prescaler;
 }
 
-void timer1_stop(){
+uint32_t timer1_stop(){
     TCCR1B=0;
-}
-
-// Función para obtener el tiempo transcurrido
-uint32_t timer1_getCount() {
     uint32_t time = TCNT1;
     time *= fac;
     return time;
