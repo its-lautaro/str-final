@@ -31,7 +31,7 @@ void timer1_start(uint16_t prescaler) {
 }
 
 uint32_t timer1_stop(){
-    TCCR1B=0;
+    TCCR1B &= ~(1<<CS10) & ~(1<<CS11) & ~(1<<CS12);
     uint32_t time = TCNT1;
     time *= fac;
     return time;
