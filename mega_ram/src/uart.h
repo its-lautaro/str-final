@@ -2,10 +2,12 @@
 #define UART_H_
 
 #include <avr/io.h>
+#include <stdio.h>
 
 void UART_Init();
-void UART_SendInt8(uint8_t n);
-void UART_SendStr(const char* str);
-uint8_t UART_ReceiveInt8();
+void UART_SendByte(uint8_t n);
+void UART_PrintStr(const char* str);
+void UART_PrintNumber(uint32_t n);
+uint8_t UART_ReceiveByte();
 
 #endif //UART_H_
