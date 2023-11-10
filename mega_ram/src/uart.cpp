@@ -29,7 +29,7 @@ void UART_PrintStr(const char* str) {
     }
 }
 
-void UART_PrintNumber(uint32_t n){
+void UART_PrintNumber(const uint32_t n){
     char buffer[11]; // Maximum length of uint32_t in decimal is 10 digits, plus null terminator
     snprintf(buffer, sizeof(buffer), "%lu", n);
     UART_PrintStr(buffer);

@@ -7,7 +7,7 @@
 void UART_Init();
 void UART_SendByte(uint8_t n);
 void UART_PrintStr(const char* str);
-void UART_PrintNumber(uint32_t n);
+void UART_PrintNumber(const uint32_t n);
 uint8_t UART_ReceiveByte();
 
 #endif //UART_H_
