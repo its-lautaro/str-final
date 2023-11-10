@@ -5,20 +5,12 @@
 
 void setup() {
   Serial.begin(9600); //Inicializa el puerto para comunicacion serial
+  pinMode(13,OUTPUT);
 }
 
-//Funcion que calcula el tiempo de ejecución
-double dwalltime(){
-	double sec;
-	struct timeval tv;
-
-	gettimeofday(&tv,NULL);
-	sec = tv.tv_sec + tv.tv_usec/1000000.0;
-	return sec;
-}
 
 // Multiplicación de matrices por bloques
-void matmulblks(int *a, int *b, int *c, int n, int bs){
+/*void matmulblks(int *a, int *b, int *c, int n, int bs){
 int *ablk, *bblk, *cblk;
 int I, J, K;    
 int i, j, k; 
@@ -40,73 +32,50 @@ int i, j, k;
     }
   }
 }
-
-//el n y el tamaño de bloque bs lo debemos setear nosotros segun el tamaño maximo de matriz a procesar
-int i, j, bs=4 ,n=88; 
-int* A = (int *) malloc(n*n*sizeof(int));
-int* B = (int *) malloc(n*n*sizeof(int));
-int* C = (int *) malloc(n*n*sizeof(int));
-int c=10;
-char msj[20];
-double timetick;
+*/
 
 void loop() {
-  //Inicializacion
-	for (i =0; i < n; i++){
-		for (j = 0; j < n; j++){
-			A[i*n + j] = i;
-			B[j*n + i] = i;
-			C[i*n + j] = i;
 
-      if (A[i*n + j] != i){
-        Serial.println("Error en A");
-      }
-      
-      if (B[j*n + i] != i){
-        Serial.println("Error en B");
-      }
-      
-      if (C[i*n + j] != i){
-        Serial.println("Error en C");
-      }
-		}
-	}
+  int i, j, n=185;//Valor máximo 181
+  int* A = (int *) malloc(n*n*sizeof(int));
+  int* B = (int *) malloc(n*n*sizeof(int));
+  int* C = (int *) malloc(n*n*sizeof(int));
+  //Inicializacion
+  for (i = 0; i < n; i++) {
+    for (j = 0; j < n; j++) {
+      A[i * n + j] = 1;
+      B[j * n + i] = 1;
+      C[i * n + j] = 0;
+    }
+  }
+  if (A == NULL || B == NULL || C == NULL) Serial.println("Se rompió todo padre");
+
   Serial.println("Las matrices fueron iniciadas correctamente.");
   Serial.print("Multiplicando matrices de ");
   Serial.print(n);
   Serial.print("x ");
   Serial.print(n);
-  Serial.print("en bloques de ");
-  Serial.print(bs);
-  Serial.print("x ");
-  Serial.println(bs);
 
-  timetick = dwalltime();
-  
-  matmulblks(A, B, C, n, bs);
-  
-  double totalTime = dwalltime() - timetick;
+  //long long int timeStart=micros();//64 bits long long int
+  //long long int timeStop=micros();
 
-  // Validando
-  for (i = 0; i < n; i++){
-    for (j = 0; j < n; j++){
-      if (C[i*n + j] != n){
-        Serial.print("Error en ");
-        Serial.print(i, j);
-        Serial.print("valor: ");
-        Serial.println(C[i*n + j]);
-      }
-    }
-  }
+  long timeStart=millis();
+  delay(1000);
+  long timeStop=millis();
 
-	Serial.print("Tiempo en segundos ");
-  Serial.println(totalTime);
+  Serial.print("El tiempo de cálculo es de ");
+  Serial.print(timeStart-timeStop);
+  Serial.print(" us");
+
+
+
 
 	free(A);
 	free(B);
 	free(C);
+  digitalWrite(13,HIGH);
+  delay(1000);
+  digitalWrite(13,LOW);
 }
-
-
 
 
