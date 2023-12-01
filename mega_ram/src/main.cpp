@@ -50,24 +50,46 @@ int main() {
   UART_Init();
   uint16_t prescaler = 256;
 
-  A = (uint8_t*)malloc(n * n * sizeof(uint8_t));
-  B = (uint8_t*)malloc(n * n * sizeof(uint8_t));
-  C = (uint8_t*)malloc(n * n * sizeof(uint8_t));
-
-  // Check if there was enough memory
-  if (A == NULL || B == NULL || C == NULL) {
-    UART_PrintStr("Error: memoria insuficiente\n");
-    error();
-  }
-
-  // Initialize matrices
-  for (int i = 0; i < n * n; i++) {
-    A[i] = 1;
-    B[i] = 1;
-    C[i] = 0;
-  }
-
+  A = (uint8_t*)malloc(1 * sizeof(uint8_t));
+  B = (uint8_t*)malloc(1 * sizeof(uint8_t));
+  C = (uint8_t*)malloc(1 * sizeof(uint8_t));
   while (1) {
+
+    int max = 0;
+    // Calcular tamaño maximo de matriz
+    for (int i = 2; i < 100; i++) {
+      free(A);
+      free(B);
+      free(C);
+      A = (uint8_t*)malloc(i * i * sizeof(uint8_t));
+      B = (uint8_t*)malloc(i * i * sizeof(uint8_t));
+      C = (uint8_t*)malloc(i * i * sizeof(uint8_t));
+      // Check if there was enough memory
+      if (A == NULL || B == NULL || C == NULL) {
+        max = i - 1;
+        UART_PrintStr("Tamaño máximo: ");
+        UART_PrintNumber(max);
+        UART_PrintStr("x");
+        UART_PrintNumber(max);
+        UART_PrintStr("\n");
+        free(A);
+        free(B);
+        free(C);
+        break;
+      }
+    }
+    // Calcular tiempo de ejecución
+    A = (uint8_t*)malloc(max * max * sizeof(uint8_t));
+    B = (uint8_t*)malloc(max * max * sizeof(uint8_t));
+    C = (uint8_t*)malloc(max * max * sizeof(uint8_t));
+
+    // Initialize matrices
+    for (int i = 0; i < n * n; i++) {
+      A[i] = 1;
+      B[i] = 1;
+      C[i] = 0;
+    }
+
     timer1_start(prescaler);
     multiplicar();
     uint32_t time = timer1_stop();
@@ -81,7 +103,6 @@ int main() {
     for (int i = 0; i < n * n; i++) {
       C[i] = 0;
     }
-
     _delay_ms(1000);
   }
   return 0;
