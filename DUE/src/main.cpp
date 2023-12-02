@@ -2,10 +2,25 @@
 #include <stdio.h>
 #include <stdlib.h>  
 #include <sys/time.h>
+int i, j, n=185;//Valor máximo 181
+int* A = (int *) malloc(n*n*sizeof(int));
+int* B = (int *) malloc(n*n*sizeof(int));
+int* C = (int *) malloc(n*n*sizeof(int));
 
 void setup() {
   Serial.begin(9600); //Inicializa el puerto para comunicacion serial
   pinMode(13,OUTPUT);
+  //Inicializacion
+  for (i = 0; i < n; i++) {
+    for (j = 0; j < n; j++) {
+      A[i * n + j] = 1;
+      B[j * n + i] = 1;
+      C[i * n + j] = 0;
+    }
+  }
+  if (A == NULL || B == NULL || C == NULL) Serial.println("Se rompió todo padre");
+
+  Serial.println("Las matrices fueron iniciadas correctamente.");
 }
 
 
@@ -36,21 +51,6 @@ int i, j, k;
 
 void loop() {
 
-  int i, j, n=185;//Valor máximo 181
-  int* A = (int *) malloc(n*n*sizeof(int));
-  int* B = (int *) malloc(n*n*sizeof(int));
-  int* C = (int *) malloc(n*n*sizeof(int));
-  //Inicializacion
-  for (i = 0; i < n; i++) {
-    for (j = 0; j < n; j++) {
-      A[i * n + j] = 1;
-      B[j * n + i] = 1;
-      C[i * n + j] = 0;
-    }
-  }
-  if (A == NULL || B == NULL || C == NULL) Serial.println("Se rompió todo padre");
-
-  Serial.println("Las matrices fueron iniciadas correctamente.");
   Serial.print("Multiplicando matrices de ");
   Serial.print(n);
   Serial.print("x ");
@@ -60,11 +60,11 @@ void loop() {
   //long long int timeStop=micros();
 
   long timeStart=millis();
-  delay(1000);
+  delay(1000);//Acá va el cálculo de ejecución
   long timeStop=millis();
 
   Serial.print("El tiempo de cálculo es de ");
-  Serial.print(timeStart-timeStop);
+  Serial.print(timeStop-timeStart);
   Serial.print(" us");
 
 
