@@ -1,19 +1,21 @@
 /*
 *
 * Transmisor-receptor usando USART0
-* Modo normal-speed Asynchronus 1 Mbps
-* Polling. Datasheet capitulo 22.
+* Normal mode. Async.
+* Polling.
+* Datasheet capitulo 22.
 *
 */
 #include "uart.h"
 
-void UART_Init() {
-    // Set baud rate to 1M
-    UBRR0L = 0;
+void UART_Init(long baud) {
+    // Set baud rate
+    long ubrr = (F_CPU/(16*baud))-1;
+    UBRR0H = (uint8_t) ubrr>>8;
+    UBRR0L = (uint8_t) ubrr;
 
     UCSR0C = (1 << UCSZ01) | (1 << UCSZ00); //8 bit data format
     UCSR0B = (1 << TXEN0) | (1 << RXEN0); //enable tx rx
-
 }
 
 void UART_SendByte(uint8_t n) {
@@ -43,16 +45,14 @@ void UART_PrintNumber(const uint32_t n) {
     UART_PrintStr(buffer);
 }
 
-void UART_SendBlock(uint8_t* blk,uint8_t numbers) {
-    for (int i = 0; i < numbers; i++)
-    {
+void UART_SendBlock(uint8_t* blk, uint8_t numbers) {
+    for (int i = 0; i < numbers; i++) {
         UART_SendByte(blk[i]);
     }
 }
 
-void UART_ReceiveBlock(uint8_t* blk,uint8_t numbers) {
-    for (int i = 0; i < numbers; i++)
-    {
+void UART_ReceiveBlock(uint8_t* blk, uint8_t numbers) {
+    for (int i = 0; i < numbers; i++) {
         blk[i] = UART_ReceiveByte();
     }
 }

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void UART_Init();
+void UART_Init(long baud);
 void UART_SendByte(uint8_t n);
 void UART_PrintStr(const char* str);
 void UART_PrintNumber(const uint32_t n);
