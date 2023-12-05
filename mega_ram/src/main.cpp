@@ -6,6 +6,7 @@
 * Este programa incrementa gradualmente el tamaño de la matriz hasta encontrar un error
 * en la alocación de memoria o en el resultado de la matriz
 *
+* Una vez encontrado el tamaño maximo mide el tiempo de ejecución
 */
 #include <avr/io.h>
 #include <stdlib.h>
