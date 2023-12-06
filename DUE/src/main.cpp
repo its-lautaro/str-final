@@ -7,6 +7,8 @@ int* C = (int *) malloc(n*n*sizeof(int));
 
 void setup() {
   Serial.begin(9600); //Inicializa el puerto para comunicacion serial
+  Serial1.begin((uint32_t) 1000000); //Comunicación Arduino
+  
   pinMode(13,OUTPUT);
   //Inicializacion
   for (i = 0; i < n; i++) {
@@ -47,8 +49,7 @@ int i, j, k;
 }
 */
 
-void loop() {
-
+void loop(){
   Serial.print("Multiplicando matrices de ");
   Serial.print(n);
   Serial.print("x ");
@@ -66,17 +67,14 @@ void loop() {
   Serial.print(" us");
 
 
-
-
 	free(A);
 	free(B);
 	free(C);
   digitalWrite(13,HIGH);
   delay(1000);
   digitalWrite(13,LOW);
-}
 
-void loop(){
+  //A PARTIR DE ACA COMIENZA MI IMPLEMENTACION
   loopHandler();
 }
 
