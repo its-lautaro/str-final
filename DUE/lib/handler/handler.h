@@ -4,11 +4,6 @@
 #include <sys/time.h>
 
 /**
- * @brief Initialize handler
- */
-void initialize();
-
-/**
  * @brief sendBlockforUart1
  */
 void sendBlock();
@@ -17,6 +12,11 @@ void sendBlock();
  * @brief receiveResultforUart1
  */
 void receiveResult();
+
+/**
+ * @brief printMatrizforUart0
+ */
+void printMatrix();
 
 /**
  * @brief Loop for handler
