@@ -1,7 +1,5 @@
-#include <Arduino.h>
-#include <stdio.h>
-#include <stdlib.h>  
-#include <sys/time.h>
+#include "handler.h"
+
 int i, j, n=185;//Valor máximo 181
 int* A = (int *) malloc(n*n*sizeof(int));
 int* B = (int *) malloc(n*n*sizeof(int));
@@ -76,6 +74,10 @@ void loop() {
   digitalWrite(13,HIGH);
   delay(1000);
   digitalWrite(13,LOW);
+}
+
+void loop(){
+  loopHandler();
 }
 
 
