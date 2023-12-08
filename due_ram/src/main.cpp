@@ -1,13 +1,18 @@
 /*
 *
-* Este programa incrementa gradualmente el tamaño de la matriz hasta encontrar un error
-* en la alocación de memoria o en el resultado de la matriz
+* A diferencia de la implementación para el Arduino MEGA
+* la función malloc no retorna null en caso de fallo de alocación
+* por lo que no es posible aumentar el tamaño de forma dinámica.
+* 
+* Para encontrar el tamaño máximo, el valor de n debe ser aumentado manualmente
+* hasta encontrar un valor en el que el programa no emita resultado
+* (esto sucede debido a un error de alocación que nunca es anunciado)
 *
-* Una vez encontrado el tamaño maximo mide el tiempo de ejecución
+* Luego de alocar el espacio en memoria realiza la operación e informa el tiempo transcurrido
 */
 #include <Arduino.h>
 
-uint8_t n = 51;
+uint8_t n = 176;
 uint8_t* A, * B, * C;
 
 // blink builtin led
@@ -47,9 +52,6 @@ void setup() {
   B = (uint8_t*)malloc(n * n * sizeof(uint8_t));
   C = (uint8_t*)malloc(n * n * sizeof(uint8_t));
 
-  if (A == NULL || B == NULL || C == NULL) {
-    error();
-  }
 }
 
 void loop() {
