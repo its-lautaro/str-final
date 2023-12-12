@@ -1,9 +1,11 @@
 /*
 * Calcula el round trip time
 */
+#include <Arduino.h>
+char incomingByte;
 void setup() {
-  Serial.begin(9600); // interfaz usb
-  Serial1.begin((uint32_t) 1000000); // comunicacion arduino
+  Serial.begin(115200UL); // interfaz usb
+  Serial3.begin(250000UL); // comunicacion arduino
   
 }
 
@@ -11,16 +13,17 @@ void loop() {
   unsigned long last_micros = micros();
   
   // Enviar mensaje
-  Serial1.write('a');
+  Serial3.write('a');
   
   // Esperar respuesta
-  while (!Serial1.available()) {
-      ;
-  }
+  do
+  {
+    incomingByte = Serial3.read();
+  } while (incomingByte!='a');
   
   unsigned long roundTripTime = micros() - last_micros;
   
-  Serial1.read();
+  Serial3.read();
 
   // Informar round trip time por consola
   Serial.print("Round Trip Time: ");

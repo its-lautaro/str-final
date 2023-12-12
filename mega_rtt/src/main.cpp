@@ -1,16 +1,16 @@
 #include <avr/io.h>
 #include <util/delay.h>
-#include "uart1.h"
-
+#include "uart3.h"
 int main() {
-  UART1_Init(1000000L);
-
+  UART3_Init(250000L);
+  char incomingByte;
   while (1) {
     // Espera mensaje
-    UART1_ReceiveByte(); // operación bloqueante
+    do{
+      incomingByte = UART3_ReceiveByte();
+    }while(incomingByte!='a');
     // Enviar respuesta
-    UART1_SendByte('a'); // operación bloqueante
+    UART3_SendByte('a');
   }
-
   return 0;
 }
