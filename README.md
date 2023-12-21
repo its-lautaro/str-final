@@ -5,5 +5,7 @@ Proyecto desarrollado por:
 * Lautaro La Vecchia
 * Luciano Loyola
 * Gabriel Torres
+
 Supervisado por Alan Castell en conjunto con la cátedra de Sistemas de Tiempo Real
+
 Universidad Nacional de la Plata | Facultad de Informática
